@@ -29,9 +29,19 @@ namespace QuoteTicker
         private async void GetQuotesBtn_Click(object sender, RoutedEventArgs e)
         {
             getQuotesBtn.IsEnabled = false;
-            await Task.Run(() => Thread.Sleep(3000));
+            var result = await Task<string>.Run(() =>
+            {
+                Thread.Sleep(3000);
+                return "Quotes Received Successfully";
+            });
+
             getQuotesBtn.IsEnabled = true;
-            statusMessageLabel.Content = "Quotes Received Successfully";
+            statusMessageLabel.Content = result;
+
+            //getQuotesBtn.IsEnabled = false;
+            //await Task.Run(() => Thread.Sleep(3000));
+            //getQuotesBtn.IsEnabled = true;
+            //statusMessageLabel.Content = "Quotes Received Successfully";
 
             //getQuotesBtn.IsEnabled = false;
             //var task = Task.Run(() =>
