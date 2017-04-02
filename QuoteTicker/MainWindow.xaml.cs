@@ -30,7 +30,10 @@ namespace QuoteTicker
         {
             try
             {
-                await GetQuotesAsync();
+                getQuotesBtn.IsEnabled = false;
+                var result = await GetQuotesAsync();
+                getQuotesBtn.IsEnabled = true;
+                statusMessageLabel.Content = result;
             }
             catch (Exception exception)
             {
@@ -38,17 +41,22 @@ namespace QuoteTicker
             }
         }
 
-        private async Task GetQuotesAsync()
+        private async Task<string> GetQuotesAsync()
         {
-            getQuotesBtn.IsEnabled = false;
-            var result = await Task<string>.Run(() =>
+            try
             {
-                Thread.Sleep(3000);
-                return "Quotes Received Successfully";
-            });
-
-            getQuotesBtn.IsEnabled = true;
-            statusMessageLabel.Content = result;
+                return await Task<string>.Run(() =>
+                {
+                    Thread.Sleep(3000);
+                    return "Quotes Received Successfully";
+                });
+                
+            }
+            catch (Exception e)
+            {
+                return "Getting Quotes Failed!!";
+            }
+            
         }
     }
 }
