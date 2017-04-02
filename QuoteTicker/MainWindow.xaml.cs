@@ -28,10 +28,17 @@ namespace QuoteTicker
 
         private async void GetQuotesBtn_Click(object sender, RoutedEventArgs e)
         {
-            GetQuotes();
+            try
+            {
+                await GetQuotesAsync();
+            }
+            catch (Exception exception)
+            {
+                statusMessageLabel.Content = "Getting Quotes Failed!!";
+            }
         }
 
-        private async void GetQuotes()
+        private async Task GetQuotesAsync()
         {
             getQuotesBtn.IsEnabled = false;
             var result = await Task<string>.Run(() =>
